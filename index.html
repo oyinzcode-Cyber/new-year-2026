@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy New Year 2026 | Dan-T</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fireworks Library -->
+  <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.x/dist/index.umd.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #000428, #004e92);
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .container {
+      margin-top: 15vh;
+      z-index: 10;
+      position: relative;
+    }
+
+    input {
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      width: 250px;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      background: gold;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-top: 20px;
+    }
+
+    .logo {
+      position: fixed;
+      top: 15px;
+      left: 20px;
+      font-weight: bold;
+      font-size: 18px;
+      color: gold;
+    }
+
+    /* Santa Animation */
+    .santa {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      width: 120px;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="logo">🎉 Dan-T</div>
+
+  <div class="container">
+    <input id="nameInput" placeholder="Enter your name">
+    <button onclick="generate()">Celebrate 🎆</button>
+
+    <h1 id="message"></h1>
+    <p id="shareLink"></p>
+  </div>
+
+  <!-- Santa -->
+  <img class="santa"
+       src="https://i.imgur.com/QrKQZ4G.gif"
+       alt="Santa Claus">
+
+  <!-- Music -->
+  <audio id="music" loop>
+    <source src="https://cdn.pixabay.com/audio/2022/12/22/audio_ebedc55b27.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Fireworks Canvas -->
+  <canvas id="fireworks"></canvas>
+
+  <script>
+    const fireworks = new Fireworks.default(
+      document.getElementById('fireworks'),
+      { intensity: 30 }
+    );
+
+    function generate() {
+      const name = document.getElementById("nameInput").value.trim();
+      if (!name) return alert("Please enter your name");
+
+      document.getElementById("message").innerHTML =
+        `🎆 Happy New Year 2026, <br><strong>${name}</strong>! 🎉<br>
+         May this year bring joy, success & peace.`;
+
+      fireworks.start();
+      document.getElementById("music").play();
+
+      const url = `${window.location.origin}${window.location.pathname}?name=${encodeURIComponent(name)}`;
+      document.getElementById("shareLink").innerHTML =
+        `🔗 Share your wish: <br><a href="${url}" style="color:gold">${url}</a>`;
+    }
+
+    // Auto-load name from link
+    const params = new URLSearchParams(window.location.search);
+    const sharedName = params.get("name");
+    if (sharedName) {
+      document.getElementById("nameInput").value = sharedName;
+      generate();
+    }
+  </script>
+
+</body>
+</html>
